@@ -1,0 +1,11 @@
+{
+    "name": "emeBartApi",
+    "description": "XML to JSON proxy for Bart API",
+    "keywords": [
+        "api"
+    ],
+    "image": "heroku/go:1.5",
+    "mount_dir": "src/github.com/jamesmura/emeBartApi",
+    "website": "http://github.com/jamesmura/emeBartApi",
+    "repository": "http://github.com/jamesmura/emeBartApi"
+}
