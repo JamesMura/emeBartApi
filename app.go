@@ -2,6 +2,7 @@ package emeBartApi
 
 import (
 	"encoding/xml"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -31,6 +32,19 @@ type Route struct {
 	StationCount int      `xml:"num_stns" json:"num_stns"`
 	Stations     []string `xml:"config>station" json:"stations"`
 }
+type Controller struct {
+	JSONRender *render.Render
+	HttpClient *gorequest.SuperAgent
+	EndPoint   string
+}
+
+func (c Controller) Routes(w http.ResponseWriter, req *http.Request) {
+	_, body, _ := c.HttpClient.Get(fmt.Sprintf("%sapi/route.aspx", c.EndPoint, req.RequestURI)).EndBytes()
+	routeInfo := RouteInfo{}
+	err := xml.Unmarshal(body, &routeInfo)
+	checkError(w, err)
+	c.JSONRender.JSON(w, http.StatusOK, routeInfo)
+}
 
 func Run() {
 	port := os.Getenv("PORT")
@@ -39,15 +53,9 @@ func Run() {
 		log.Fatal("$PORT must be set")
 	}
 
-	r := render.New()
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/route.aspx", func(w http.ResponseWriter, req *http.Request) {
-		_, body, _ := gorequest.New().Get("http://api.bart.gov/api/route.aspx?cmd=routes&key=MW9S-E7SL-26DU-VV8V").EndBytes()
-		routeInfo := RouteInfo{}
-		err := xml.Unmarshal(body, &routeInfo)
-		checkError(w, err)
-		r.JSON(w, http.StatusOK, routeInfo)
-	})
+	controller := Controller{render.New(), gorequest.New(), "http://api.bart.gov"}
+	mux.HandleFunc("/api/route.aspx", controller.Routes)
 
 	n := negroni.Classic()
 	n.UseHandler(mux)
