@@ -1,0 +1,28 @@
+{
+	"ImportPath": "github.com/jamesmura/emeBartApi",
+	"GoVersion": "go1.5.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/negroni",
+			"Comment": "v0.1-70-gc7477ad",
+			"Rev": "c7477ad8e330bef55bf1ebe300cf8aa67c492d1b"
+		},
+		{
+			"ImportPath": "github.com/moul/http2curl",
+			"Rev": "1812aee76a1ce98d604a44200c6a23c689b17a89"
+		},
+		{
+			"ImportPath": "github.com/parnurzeal/gorequest",
+			"Comment": "v0.2.13-9-gc73179d",
+			"Rev": "c73179dd31355d86bd7692de9b47623d6d0fa696"
+		},
+		{
+			"ImportPath": "github.com/unrolled/render",
+			"Rev": "20811297fc3c80743d1aad450c983c6df08ae436"
+		},
+		{
+			"ImportPath": "golang.org/x/net/publicsuffix",
+			"Rev": "b4e17d61b15679caf2335da776c614169a1b4643"
+		}
+	]
+}
