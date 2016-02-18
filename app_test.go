@@ -10,11 +10,10 @@ import (
 )
 
 func Test_HelloWorld(t *testing.T) {
-	req, err := http.NewRequest("GET", "http://example.com/foo", nil)
+	req, err := http.NewRequest("GET", "http://emebartapi.herokuapp.com/api/route.aspx?cmd=routeinfo&route=6&key=MW9S-E7SL-26DU-VV8V", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	res := httptest.NewRecorder()
 	controller := Controller{render.New(), gorequest.New(), "http://api.bart.gov"}
 	controller.Routes(res, req)

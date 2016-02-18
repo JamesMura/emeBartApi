@@ -32,6 +32,7 @@ type Route struct {
 	StationCount int      `xml:"num_stns" json:"num_stns"`
 	Stations     []string `xml:"config>station" json:"stations"`
 }
+
 type Controller struct {
 	JSONRender *render.Render
 	HttpClient *gorequest.SuperAgent
@@ -39,7 +40,9 @@ type Controller struct {
 }
 
 func (c Controller) Routes(w http.ResponseWriter, req *http.Request) {
-	_, body, _ := c.HttpClient.Get(fmt.Sprintf("%sapi/route.aspx", c.EndPoint, req.RequestURI)).EndBytes()
+	url := fmt.Sprintf("%s/%s?%s", c.EndPoint, req.URL.Path, req.URL.RawQuery)
+	fmt.Println(url)
+	_, body, _ := c.HttpClient.Get(url).EndBytes()
 	routeInfo := RouteInfo{}
 	err := xml.Unmarshal(body, &routeInfo)
 	checkError(w, err)
